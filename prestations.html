@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prestations — ÉclairNet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --vert:    #3d6b4f;
+      --vert-cl: #5a8f6e;
+      --creme:   #f7f3ec;
+      --beige:   #e8dfd0;
+      --brun:    #6b4f3a;
+      --texte:   #2c2c2c;
+      --blanc:   #ffffff;
+    }
+
+    body { font-family: 'Lato', sans-serif; background: var(--creme); color: var(--texte); }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(247,243,236,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--beige);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700; color: var(--vert); text-decoration: none; }
+    .logo span { color: var(--brun); }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--texte);
+      transition: color .25s; position: relative; padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--vert); transition: width .3s ease;
+    }
+    .nav-links a:hover { color: var(--vert); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--vert); }
+    .nav-links a.active::after { width: 100%; }
+    .nav-cta {
+      background: var(--vert); color: var(--blanc) !important;
+      padding: 10px 22px; border-radius: 30px; text-decoration: none;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; transition: background .25s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--brun); transform: translateY(-1px); }
+
+    /* ─── HEADER PAGE ─── */
+    .page-header {
+      padding-top: 72px;
+      background: linear-gradient(135deg, var(--vert) 0%, var(--vert-cl) 100%);
+      padding-bottom: 70px;
+      padding-left: 6%; padding-right: 6%;
+      position: relative; overflow: hidden;
+      text-align: center;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='40' cy='40' rx='8' ry='18' fill='%23ffffff' fill-opacity='0.05' transform='rotate(45 40 40)'/%3E%3C/svg%3E");
+      background-size: 80px;
+    }
+    .page-header-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 30px;
+      padding: 6px 18px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.9);
+      margin-bottom: 18px; position: relative;
+      animation: fadeUp .7s ease both;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      color: var(--blanc); margin-bottom: 14px;
+      position: relative;
+      animation: fadeUp .8s .1s ease both;
+    }
+    .page-header p {
+      color: rgba(255,255,255,0.8); font-size: 1rem; max-width: 540px;
+      margin: 0 auto; line-height: 1.7; position: relative;
+      animation: fadeUp .9s .2s ease both;
+    }
+
+    /* ─── CONTENU ─── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 80px 6%; }
+
+    .prestation-block {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: start; margin-bottom: 80px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid var(--beige);
+    }
+    .prestation-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .prestation-block.reverse { direction: rtl; }
+    .prestation-block.reverse > * { direction: ltr; }
+
+    .prestation-infos {}
+
+    .presta-tag {
+      display: inline-block;
+      background: var(--beige); border-radius: 30px;
+      padding: 5px 14px; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--vert);
+      margin-bottom: 16px;
+    }
+
+    .presta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700; color: var(--texte); margin-bottom: 16px;
+    }
+
+    .presta-desc {
+      font-size: 0.96rem; color: #666; line-height: 1.75; margin-bottom: 28px;
+    }
+
+    .presta-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .presta-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 0.9rem; color: #555; line-height: 1.5;
+    }
+    .presta-list li::before {
+      content: '✓';
+      color: var(--vert); font-weight: 700; font-size: 0.85rem;
+      background: rgba(61,107,79,0.1); border-radius: 50%;
+      width: 22px; height: 22px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+
+    /* carte visuelle */
+    .presta-visual {
+      background: var(--blanc);
+      border-radius: 24px;
+      padding: 36px;
+      border: 1px solid var(--beige);
+      box-shadow: 0 6px 32px rgba(0,0,0,0.05);
+    }
+
+    .visual-icon {
+      width: 68px; height: 68px;
+      background: linear-gradient(135deg, var(--beige), #ece5d8);
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin-bottom: 24px;
+    }
+
+    .visual-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 600; color: var(--texte);
+      margin-bottom: 18px;
+    }
+
+    .visual-items { display: flex; flex-direction: column; gap: 12px; }
+
+    .visual-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--creme); border-radius: 12px; padding: 12px 16px;
+    }
+    .vi-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--vert); flex-shrink: 0; }
+    .vi-text { font-size: 0.87rem; color: #555; }
+
+    /* ─── CTA ─── */
+    .cta-band {
+      background: linear-gradient(135deg, var(--vert) 0%, var(--vert-cl) 100%);
+      padding: 70px 6%; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-band::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='40' cy='40' rx='8' ry='18' fill='%23ffffff' fill-opacity='0.04' transform='rotate(45 40 40)'/%3E%3C/svg%3E");
+      background-size: 80px;
+    }
+    .cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem,3vw,2.3rem); color: var(--blanc); margin-bottom: 12px; position: relative; }
+    .cta-band p { color: rgba(255,255,255,0.82); margin-bottom: 28px; position: relative; }
+    .btn-white {
+      background: var(--blanc); color: var(--vert);
+      padding: 14px 34px; border-radius: 40px; text-decoration: none;
+      font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em;
+      display: inline-block; transition: transform .2s, box-shadow .2s;
+      position: relative; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #1e2e24; color: rgba(255,255,255,0.65);
+      padding: 50px 6% 30px;
+      display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: flex-start;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--blanc); text-decoration: none; display: block; margin-bottom: 10px; }
+    .footer-logo span { color: #8cb89a; }
+    .footer-desc { font-size: 0.85rem; line-height: 1.65; max-width: 240px; }
+    .footer-links h4 { color: var(--blanc); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+    .footer-links a:hover { color: #8cb89a; }
+    .footer-bottom { width: 100%; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; margin-top: 10px; font-size: 0.78rem; text-align: center; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .prestation-block, .prestation-block.reverse { grid-template-columns: 1fr; direction: ltr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Éclair<span>Net</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="prestations.html" class="active">Prestations</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">Devis gratuit</a>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="page-header-tag">✦ Ce que nous faisons</div>
+  <h1>Nos prestations</h1>
+  <p>De l'intérieur au jardin, nous proposons des services adaptés à vos besoins avec soin, efficacité et transparence.</p>
+</div>
+
+<!-- CONTENU -->
+<div class="container">
+
+  <!-- NETTOYAGE INTÉRIEUR -->
+  <div class="prestation-block">
+    <div class="prestation-infos">
+      <span class="presta-tag">Intérieur</span>
+      <h2 class="presta-title">Nettoyage intérieur complet</h2>
+      <p class="presta-desc">On prend soin de chaque pièce de votre logement avec rigueur, des produits adaptés et un résultat impeccable. Idéal pour un ménage régulier, un grand nettoyage saisonnier ou une remise en état.</p>
+      <ul class="presta-list">
+        <li>Dépoussiérage & aspiration de toutes les surfaces</li>
+        <li>Nettoyage des sols (carrelage, parquet, moquette)</li>
+        <li>Cuisine : plans de travail, appareils, éviers</li>
+        <li>Salle de bain : sanitaires, joints, robinetterie</li>
+        <li>Vitres et fenêtres intérieures</li>
+        <li>Produits éco-responsables fournis</li>
+      </ul>
+    </div>
+    <div class="presta-visual">
+      <div class="visual-icon">🏠</div>
+      <div class="visual-title">Ce qui est inclus</div>
+      <div class="visual-items">
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Cuisine & salle de bain</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Chambres & séjour</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Vitres & surfaces vitrées</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Débarras & rangement optionnel</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Intervention sur devis personnalisé</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NETTOYAGE EXTÉRIEUR -->
+  <div class="prestation-block reverse">
+    <div class="prestation-infos">
+      <span class="presta-tag">Extérieur</span>
+      <h2 class="presta-title">Entretien & nettoyage extérieur</h2>
+      <p class="presta-desc">Terrasses, allées, façades, mobilier de jardin… L'extérieur de votre maison mérite autant d'attention que l'intérieur. On s'en charge avec les bons équipements.</p>
+      <ul class="presta-list">
+        <li>Nettoyage haute pression (terrasses, dalles, allées)</li>
+        <li>Nettoyage de façades et murs extérieurs</li>
+        <li>Entretien du mobilier de jardin</li>
+        <li>Nettoyage des gouttières</li>
+        <li>Vitres et volets extérieurs</li>
+        <li>Élimination de mousses et lichens</li>
+      </ul>
+    </div>
+    <div class="presta-visual">
+      <div class="visual-icon">🏡</div>
+      <div class="visual-title">Surfaces traitées</div>
+      <div class="visual-items">
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Terrasses bois, béton, carrelage</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Allées et cours</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Façades & bardages</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Gouttières & descentes</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Portails & clôtures</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REMISE EN ÉTAT DU JARDIN -->
+  <div class="prestation-block">
+    <div class="prestation-infos">
+      <span class="presta-tag">Jardin</span>
+      <h2 class="presta-title">Remise en beauté du jardin</h2>
+      <p class="presta-desc">Votre jardin a besoin d'un coup de main ? On intervient pour le désherber, le tailler, l'évacuer et le remettre sur pied — que ce soit après l'hiver, après des travaux ou simplement parce qu'il en a besoin.</p>
+      <ul class="presta-list">
+        <li>Taille de haies, arbustes et petits arbres</li>
+        <li>Désherbage manuel ou mécanique</li>
+        <li>Ramassage et évacuation des déchets verts</li>
+        <li>Tonte et scarification de la pelouse</li>
+        <li>Remise en état après travaux ou saisons</li>
+        <li>Nettoyage de bassins et fontaines</li>
+      </ul>
+    </div>
+    <div class="presta-visual">
+      <div class="visual-icon">🌿</div>
+      <div class="visual-title">Nos interventions jardin</div>
+      <div class="visual-items">
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Taille & élagage</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Désherbage complet</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Évacuation des déchets verts</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Tonte & entretien de pelouse</div></div>
+        <div class="visual-item"><div class="vi-dot"></div><div class="vi-text">Remise en état post-travaux</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Un projet ? Parlons-en.</h2>
+  <p>Demandez votre devis gratuit, on vous répond rapidement.</p>
+  <a href="contact.html" class="btn-white">Demander un devis</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <a href="index.html" class="footer-logo">Éclair<span>Net</span></a>
+    <p class="footer-desc">Votre partenaire nettoyage & entretien, intérieur et extérieur. Sérieux, rapide, éco-responsable.</p>
+  </div>
+  <div class="footer-links">
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="prestations.html">Prestations</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-links">
+    <h4>Contact</h4>
+    <ul>
+      <li><a href="tel:+33600000000">06 00 00 00 00</a></li>
+      <li><a href="mailto:contact@eclairnet.fr">contact@eclairnet.fr</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">© 2025 ÉclairNet — Tous droits réservés</div>
+</footer>
+
+</body>
+</html>
