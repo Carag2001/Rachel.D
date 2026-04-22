@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — ÉclairNet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --vert:    #3d6b4f;
+      --vert-cl: #5a8f6e;
+      --creme:   #f7f3ec;
+      --beige:   #e8dfd0;
+      --brun:    #6b4f3a;
+      --texte:   #2c2c2c;
+      --blanc:   #ffffff;
+    }
+
+    body { font-family: 'Lato', sans-serif; background: var(--creme); color: var(--texte); }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(247,243,236,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--beige); padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between; height: 72px;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700; color: var(--vert); text-decoration: none; }
+    .logo span { color: var(--brun); }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--texte);
+      transition: color .25s; position: relative; padding-bottom: 4px;
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--vert); transition: width .3s ease; }
+    .nav-links a:hover { color: var(--vert); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--vert); }
+    .nav-links a.active::after { width: 100%; }
+    .nav-cta {
+      background: var(--vert); color: var(--blanc) !important;
+      padding: 10px 22px; border-radius: 30px; text-decoration: none;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; transition: background .25s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--brun); transform: translateY(-1px); }
+
+    /* ─── HEADER ─── */
+    .page-header {
+      padding-top: 72px;
+      background: linear-gradient(135deg, var(--vert) 0%, var(--vert-cl) 100%);
+      padding-bottom: 70px; padding-left: 6%; padding-right: 6%;
+      position: relative; overflow: hidden; text-align: center;
+    }
+    .page-header::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='40' cy='40' rx='8' ry='18' fill='%23ffffff' fill-opacity='0.05' transform='rotate(45 40 40)'/%3E%3C/svg%3E");
+      background-size: 80px;
+    }
+    .page-header-tag {
+      display: inline-block; background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3); border-radius: 30px;
+      padding: 6px 18px; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.9);
+      margin-bottom: 18px; position: relative;
+      animation: fadeUp .7s ease both;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--blanc);
+      margin-bottom: 14px; position: relative;
+      animation: fadeUp .8s .1s ease both;
+    }
+    .page-header p {
+      color: rgba(255,255,255,0.8); font-size: 1rem; max-width: 540px;
+      margin: 0 auto; line-height: 1.7; position: relative;
+      animation: fadeUp .9s .2s ease both;
+    }
+
+    /* ─── LAYOUT CONTACT ─── */
+    .contact-layout {
+      max-width: 1100px; margin: 0 auto; padding: 80px 6%;
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start;
+    }
+
+    /* ─── INFOS ─── */
+    .contact-infos {}
+
+    .infos-tag {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--vert); margin-bottom: 10px;
+    }
+    .infos-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 700;
+      color: var(--texte); margin-bottom: 16px;
+    }
+    .infos-desc {
+      font-size: 0.95rem; color: #666; line-height: 1.75; margin-bottom: 36px;
+    }
+
+    .info-cards { display: flex; flex-direction: column; gap: 16px; }
+
+    .info-card {
+      background: var(--blanc); border-radius: 18px; padding: 20px 22px;
+      border: 1px solid var(--beige);
+      display: flex; align-items: center; gap: 16px;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .info-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+    .ic-icon {
+      width: 46px; height: 46px; background: var(--beige); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .ic-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #999; font-weight: 700; margin-bottom: 3px; }
+    .ic-value { font-size: 0.92rem; color: var(--texte); font-weight: 400; }
+    .ic-value a { color: var(--vert); text-decoration: none; }
+    .ic-value a:hover { text-decoration: underline; }
+
+    /* Horaires */
+    .horaires {
+      background: var(--blanc); border-radius: 18px; padding: 24px 22px;
+      border: 1px solid var(--beige); margin-top: 16px;
+    }
+    .hor-title {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #999; margin-bottom: 14px;
+    }
+    .hor-row {
+      display: flex; justify-content: space-between;
+      font-size: 0.88rem; color: #555; padding: 6px 0;
+      border-bottom: 1px solid var(--beige);
+    }
+    .hor-row:last-child { border-bottom: none; }
+    .hor-day { font-weight: 700; color: var(--texte); }
+    .hor-closed { color: #bbb; }
+
+    /* ─── FORMULAIRE ─── */
+    .contact-form-wrap {
+      background: var(--blanc); border-radius: 24px;
+      border: 1px solid var(--beige);
+      padding: 40px 36px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.05);
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--texte); margin-bottom: 6px;
+    }
+    .form-sub { font-size: 0.88rem; color: #888; margin-bottom: 28px; }
+
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #777; }
+
+    input, select, textarea {
+      background: var(--creme); border: 1.5px solid var(--beige); border-radius: 10px;
+      padding: 12px 16px; font-size: 0.93rem; font-family: 'Lato', sans-serif;
+      color: var(--texte); transition: border-color .25s, box-shadow .25s; outline: none;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--vert);
+      box-shadow: 0 0 0 3px rgba(61,107,79,0.12);
+    }
+    textarea { resize: vertical; min-height: 120px; }
+
+    select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23777' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+    .btn-submit {
+      width: 100%; background: var(--vert); color: var(--blanc);
+      padding: 15px; border-radius: 12px; border: none; cursor: pointer;
+      font-family: 'Lato', sans-serif; font-size: 0.95rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      box-shadow: 0 4px 18px rgba(61,107,79,0.25);
+      margin-top: 8px;
+    }
+    .btn-submit:hover { background: var(--vert-cl); transform: translateY(-2px); box-shadow: 0 8px 26px rgba(61,107,79,0.3); }
+
+    .form-mention { font-size: 0.75rem; color: #aaa; text-align: center; margin-top: 12px; }
+
+    /* ─── SUCCESS MSG ─── */
+    .success-msg {
+      display: none;
+      background: rgba(61,107,79,0.08);
+      border: 1px solid rgba(61,107,79,0.25);
+      border-radius: 12px; padding: 16px 20px; margin-top: 16px;
+      color: var(--vert); font-size: 0.92rem; text-align: center;
+    }
+    .success-msg.show { display: block; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #1e2e24; color: rgba(255,255,255,0.65);
+      padding: 50px 6% 30px;
+      display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: flex-start;
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--blanc); text-decoration: none; display: block; margin-bottom: 10px; }
+    .footer-logo span { color: #8cb89a; }
+    .footer-desc { font-size: 0.85rem; line-height: 1.65; max-width: 240px; }
+    .footer-links h4 { color: var(--blanc); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+    .footer-links a:hover { color: #8cb89a; }
+    .footer-bottom { width: 100%; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; margin-top: 10px; font-size: 0.78rem; text-align: center; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .contact-form-wrap { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Éclair<span>Net</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="prestations.html">Prestations</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">Devis gratuit</a>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="page-header-tag">✦ On est là pour vous</div>
+  <h1>Contactez-nous</h1>
+  <p>Un devis, une question, une demande urgente ? On vous répond rapidement et sans engagement.</p>
+</div>
+
+<!-- LAYOUT -->
+<div class="contact-layout">
+
+  <!-- INFOS GAUCHE -->
+  <div class="contact-infos">
+    <p class="infos-tag">Informations</p>
+    <h2 class="infos-title">On est proches de vous</h2>
+    <p class="infos-desc">Basés en région, nous intervenons rapidement pour répondre à vos besoins. Appelez-nous, envoyez-nous un message ou remplissez le formulaire — on s'occupe du reste.</p>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="ic-icon">📞</div>
+        <div>
+          <div class="ic-label">Téléphone</div>
+          <div class="ic-value"><a href="tel:+33600000000">06 00 00 00 00</a></div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic-icon">✉️</div>
+        <div>
+          <div class="ic-label">Email</div>
+          <div class="ic-value"><a href="mailto:contact@eclairnet.fr">contact@eclairnet.fr</a></div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic-icon">📍</div>
+        <div>
+          <div class="ic-label">Zone d'intervention</div>
+          <div class="ic-value">Ville et communes alentours (30 km)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="horaires">
+      <div class="hor-title">🕐 Horaires</div>
+      <div class="hor-row"><span class="hor-day">Lundi – Vendredi</span><span>8h – 18h</span></div>
+      <div class="hor-row"><span class="hor-day">Samedi</span><span>9h – 14h</span></div>
+      <div class="hor-row"><span class="hor-day">Dimanche</span><span class="hor-closed">Fermé</span></div>
+    </div>
+  </div>
+
+  <!-- FORMULAIRE DROITE -->
+  <div class="contact-form-wrap">
+    <div class="form-title">Demande de devis gratuit</div>
+    <div class="form-sub">Remplissez ce formulaire, nous vous recontactons sous 24h.</div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" placeholder="Jean"/>
+      </div>
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" placeholder="Dupont"/>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="jean@exemple.fr"/>
+      </div>
+      <div class="form-group">
+        <label for="tel">Téléphone</label>
+        <input type="tel" id="tel" placeholder="06 00 00 00 00"/>
+      </div>
+      <div class="form-group full">
+        <label for="prestation">Prestation souhaitée</label>
+        <select id="prestation">
+          <option value="" disabled selected>Choisissez une prestation…</option>
+          <option>Nettoyage intérieur</option>
+          <option>Nettoyage extérieur</option>
+          <option>Remise en beauté du jardin</option>
+          <option>Combinaison de prestations</option>
+          <option>Autre / Je ne sais pas encore</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label for="message">Votre message</label>
+        <textarea id="message" placeholder="Décrivez votre besoin, la surface approximative, l'urgence…"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="sendForm()">Envoyer ma demande →</button>
+    <div class="form-mention">Aucun engagement. Réponse sous 24h ouvrées.</div>
+    <div class="success-msg" id="successMsg">✅ Votre message a bien été envoyé ! On vous recontacte très bientôt.</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <a href="index.html" class="footer-logo">Éclair<span>Net</span></a>
+    <p class="footer-desc">Votre partenaire nettoyage & entretien, intérieur et extérieur. Sérieux, rapide, éco-responsable.</p>
+  </div>
+  <div class="footer-links">
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="prestations.html">Prestations</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-links">
+    <h4>Contact</h4>
+    <ul>
+      <li><a href="tel:+33600000000">06 00 00 00 00</a></li>
+      <li><a href="mailto:contact@eclairnet.fr">contact@eclairnet.fr</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">© 2025 ÉclairNet — Tous droits réservés</div>
+</footer>
+
+<script>
+  function sendForm() {
+    const fields = ['prenom','nom','email','tel','prestation'];
+    const empty = fields.some(id => !document.getElementById(id).value.trim());
+    if (empty) {
+      alert('Merci de remplir tous les champs obligatoires.');
+      return;
+    }
+    document.getElementById('successMsg').classList.add('show');
+    document.querySelector('.btn-submit').disabled = true;
+    document.querySelector('.btn-submit').textContent = 'Message envoyé ✓';
+    document.querySelector('.btn-submit').style.background = '#888';
+  }
+</script>
+</body>
+</html>
